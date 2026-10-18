@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mãos Limpas, Sorriso Feliz</title>
+<meta name="description" content="Aprenda de forma interativa a lavar as mãos e escovar os dentes.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232b8be6'/><path d='M50 26c-11 0-20 7-20 20 0 11 4 18 7 29 1.5 6 3.5 9 6.5 9 3.5 0 4-6 5.5-13 1-5 1-6 1-6s0 1 1 6c1.5 7 2 13 5.5 13 3 0 5-3 6.5-9 3-11 7-18 7-29 0-13-9-20-20-20z' fill='white'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3fbff; --card:#ffffff; --ink:#173042; --muted:#5b7486;
+  --blue:#2b8be6; --blue-soft:#dcefff; --mint:#22b38a; --mint-soft:#d9f6ec;
+  --sun:#ffb627; --sun-soft:#fff1d1; --coral:#ff6b6b; --coral-soft:#ffe1e1;
+  --line:#d7e6f0; --shadow:0 6px 0 rgba(23,48,66,.08), 0 10px 30px rgba(23,48,66,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:18px;line-height:1.5}
+h1,h2,h3{font-family:"Baloo 2",Nunito,system-ui,sans-serif;line-height:1.1;margin:0 0 .4em}
+h1{font-size:clamp(2.2rem,7vw,4rem);font-weight:800}
+h2{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800}
+h3{font-size:1.3rem}
+p{margin:0 0 1em}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+
+/* ícones (sprite SVG inline, sem emojis) */
+.icon{width:1.2em;height:1.2em;vertical-align:-0.2em;flex:none}
+.icon-ui{width:1.05em;height:1.05em;vertical-align:-0.18em;margin-right:6px;flex:none}
+.icon-nav{width:22px;height:22px;vertical-align:-6px;margin-right:5px;flex:none}
+.icon-xl{width:60px;height:60px}
+.icon-lg{width:44px;height:44px}
+.icon-big{width:96px;height:96px}
+.score-icon{width:52px;height:52px;display:block;margin:6px auto}
+
+/* navegação */
+nav{position:sticky;top:0;z-index:10;background:rgba(243,251,255,.92);backdrop-filter:blur(8px);border-bottom:2px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav a{flex:none;display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:700;padding:8px 14px;border-radius:999px;background:var(--card);border:2px solid var(--line);font-size:.95rem}
+nav a:hover{border-color:var(--blue);color:var(--blue)}
+nav a:focus-visible,.btn:focus-visible,.ans:focus-visible,.chip:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* capa */
+.hero{padding:56px 0 40px;text-align:center}
+.hero .icon-row{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:10px}
+.hero .icon-row svg{width:clamp(2.6rem,9vw,4.2rem);height:clamp(2.6rem,9vw,4.2rem)}
+.hero p{font-size:1.2rem;color:var(--muted);max-width:620px;margin:0 auto 24px}
+.btn{display:inline-flex;align-items:center;gap:0;border:0;cursor:pointer;font:700 1.05rem Nunito,sans-serif;padding:14px 24px;border-radius:16px;background:var(--blue);color:#fff;box-shadow:0 5px 0 #1b6bb7;text-decoration:none;transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #1b6bb7}
+.btn.mint{background:var(--mint);box-shadow:0 5px 0 #168a69}
+.btn.ghost{background:var(--card);color:var(--ink);box-shadow:0 5px 0 var(--line);border:2px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+
+section{padding:48px 0;scroll-margin-top:60px}
+.card{background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+.tag{display:inline-block;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:999px;margin-bottom:10px}
+
+/* por que importa */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px}
+.why-grid .card{text-align:center}
+.why-grid .big{display:flex;justify-content:center;margin-bottom:4px}
+
+/* mãos */
+#maos .tag{background:var(--blue-soft);color:var(--blue)}
+.wash{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:start}
+.stage{text-align:center;background:var(--blue-soft);border-radius:24px;padding:28px 20px}
+.stage .icon-stage{height:110px;display:flex;align-items:center;justify-content:center}
+.stage .icon-stage.bounce{animation:bounce .6s ease}
+@keyframes bounce{0%{transform:scale(.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.stage .stepname{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:1.6rem;margin:6px 0 2px}
+.stage .stephint{color:var(--muted);min-height:3em}
+.ring{position:relative;width:150px;height:150px;margin:10px auto 16px}
+.ring svg{transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 2.6rem "Baloo 2",system-ui,sans-serif}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.steps li{display:flex;gap:12px;align-items:center;padding:10px 14px;border-radius:14px;background:var(--card);border:2px solid var(--line);transition:all .2s}
+.steps li .e{position:relative;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex:none}
+.steps li .e .icon{width:28px;height:28px}
+.steps li .e .check{position:absolute;right:-5px;bottom:-5px;width:17px;height:17px;background:#fff;border-radius:50%;opacity:0;transition:opacity .2s}
+.steps li.on{border-color:var(--blue);background:var(--blue-soft);transform:translateX(4px)}
+.steps li.done{opacity:.65}
+.steps li.done .e .check{opacity:1}
+.when{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;background:var(--card);border:2px solid var(--line);font-weight:700;font-size:.95rem}
+
+/* dentes */
+#dentes{background:linear-gradient(180deg,var(--bg),var(--mint-soft) 30%,var(--mint-soft) 70%,var(--bg))}
+#dentes .tag{background:#fff;color:var(--mint)}
+.brush{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+.mouth{position:relative;max-width:340px;margin:0 auto}
+.mouth svg{width:100%;height:auto;display:block}
+.quad{fill:#fff;stroke:#c9d9e3;stroke-width:3;transition:fill .3s}
+.quad.on{fill:var(--sun)}
+.quad.done{fill:#bff0dd}
+.brushinfo{text-align:center}
+.bigtime{font:800 clamp(3rem,10vw,4.5rem) "Baloo 2",system-ui,sans-serif;margin:0}
+.where{display:flex;align-items:center;justify-content:center;gap:6px;font-weight:800;font-size:1.3rem;min-height:1.6em;color:var(--mint)}
+.where .icon{width:1.3em;height:1.3em}
+.bar{height:14px;background:#fff;border-radius:999px;overflow:hidden;margin:14px 0 18px;border:2px solid var(--line)}
+.bar i{display:block;height:100%;width:0;background:var(--mint);transition:width 1s linear}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:28px}
+.tips .card{padding:18px}
+.tips .card b{display:block;font-family:"Baloo 2",system-ui,sans-serif;font-size:1.15rem;margin-bottom:4px}
+.tips .e{margin-bottom:4px}
+
+/* quiz */
+#quiz .tag{background:var(--sun-soft);color:#b77800}
+.quizbox{max-width:680px;margin:0 auto;text-align:center}
+.qcount{color:var(--muted);font-weight:700}
+.qtext{font:800 clamp(1.4rem,4vw,2rem) "Baloo 2",system-ui,sans-serif;margin:10px 0 22px;min-height:2.4em}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ans{display:flex;align-items:center;justify-content:center;border:0;cursor:pointer;font:800 1.4rem "Baloo 2",system-ui,sans-serif;padding:22px 10px;border-radius:20px;color:#fff;transition:transform .08s}
+.ans .icon-ui{width:1.3rem;height:1.3rem}
+.ans:active{transform:scale(.97)}
+.ans.yes{background:var(--mint);box-shadow:0 6px 0 #168a69}
+.ans.no{background:var(--coral);box-shadow:0 6px 0 #d14d4d}
+.ans:disabled{opacity:.45;cursor:default}
+.feedback{margin-top:20px;padding:16px;border-radius:16px;display:none;text-align:left}
+.feedback.ok{display:block;background:var(--mint-soft)}
+.feedback.bad{display:block;background:var(--coral-soft)}
+.feedback b{font-family:"Baloo 2",system-ui,sans-serif;font-size:1.25rem;display:inline-flex;align-items:center}
+.feedback b .icon-ui{width:1.3rem;height:1.3rem}
+.score{font:800 3rem "Baloo 2",system-ui,sans-serif;margin:10px 0 0}
+.dots{display:flex;justify-content:center;gap:6px;margin:12px 0 0}
+.dots span{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dots span.ok{background:var(--mint)}
+.dots span.bad{background:var(--coral)}
+.dots span.cur{outline:3px solid var(--sun);outline-offset:2px}
+
+/* vídeo */
+#video .tag{background:var(--coral-soft);color:var(--coral)}
+.vid{border-radius:24px;overflow:hidden;background:#0f2230;aspect-ratio:16/9;position:relative}
+.vid video,.vid iframe{width:100%;height:100%;display:block;border:0}
+.vid .missing{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#cfe3ef;padding:20px}
+.vid .missing svg{width:72px;height:72px;margin-bottom:12px}
+
+footer{padding:40px 0 60px;text-align:center;color:var(--muted)}
+footer .icon-row{display:flex;justify-content:center;gap:10px;margin-bottom:8px}
+footer .icon-row svg{width:34px;height:34px}
+
+/* confete */
+.confetti{position:fixed;top:-20px;width:14px;height:14px;pointer-events:none;z-index:50;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+
+@media (max-width:760px){
+  body{font-size:17px}
+  .wash,.brush{grid-template-columns:1fr}
+  .answers{grid-template-columns:1fr 1fr}
+  section{padding:36px 0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ======= sprite de ícones SVG (nenhum emoji na página) ======= -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<defs>
+
+<symbol id="i-home" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><path d="M24 9 L40 23 H35 V37 H13 V23 H8 Z" fill="#2b8be6"/><rect x="20" y="28" width="8" height="9" fill="#fff"/></symbol>
+
+<symbol id="i-bulb" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><circle cx="24" cy="20" r="11" fill="#ffb627"/><rect x="20" y="30" width="8" height="6" rx="2" fill="#b77800"/><rect x="21" y="37" width="6" height="3" rx="1.5" fill="#b77800"/><path d="M24 8 L24 4 M34 14 L37 11 M14 14 L11 11" stroke="#b77800" stroke-width="2.5" stroke-linecap="round"/></symbol>
+
+<symbol id="i-hands" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><rect x="14" y="20" width="20" height="12" rx="4" fill="#fff"/><circle cx="16" cy="16" r="3" fill="#fff"/><circle cx="24" cy="13" r="3.5" fill="#fff"/><circle cx="32" cy="17" r="2.5" fill="#fff"/></symbol>
+
+<symbol id="i-tooth" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#d9f6ec"/><path d="M24 10c-5 0-9 3-9 9 0 5 2 8 3 13 .6 2.6 1.6 4 2.8 4 1.6 0 1.9-3 2.4-6 .3-2 .5-3 .8-3s.5 1 .8 3c.5 3 .8 6 2.4 6 1.2 0 2.2-1.4 2.8-4 1-5 3-8 3-13 0-6-4-9-9-9z" fill="#22b38a"/></symbol>
+
+<symbol id="i-quiz" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><text x="24" y="33" text-anchor="middle" font-size="24" font-weight="800" fill="#b77800" font-family="Baloo 2, sans-serif">?</text></symbol>
+
+<symbol id="i-video" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#ffe1e1"/><rect x="11" y="15" width="26" height="18" rx="4" fill="#ff6b6b"/><path d="M21 20 L30 24 L21 28 Z" fill="#fff"/></symbol>
+
+<symbol id="i-sparkles" viewBox="0 0 48 48"><path d="M24 6 L27 18 L39 21 L27 24 L24 36 L21 24 L9 21 L21 18 Z" fill="#ffb627"/><path d="M37 32 L38.5 36 L42.5 37.5 L38.5 39 L37 43 L35.5 39 L31.5 37.5 L35.5 36 Z" fill="#2b8be6"/></symbol>
+
+<symbol id="i-sneeze" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#ffe1e1"/><path d="M15 20 L19 24 M19 20 L15 24" stroke="#ff6b6b" stroke-width="3" stroke-linecap="round"/><path d="M29 20 L33 24 M33 20 L29 24" stroke="#ff6b6b" stroke-width="3" stroke-linecap="round"/><path d="M17 32 Q24 28 31 32" stroke="#ff6b6b" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="36" cy="14" r="2.3" fill="#ff6b6b"/><circle cx="40" cy="20" r="1.6" fill="#ff6b6b"/></symbol>
+
+<symbol id="i-smile" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#d9f6ec"/><circle cx="17" cy="20" r="2.4" fill="#173042"/><circle cx="31" cy="20" r="2.4" fill="#173042"/><path d="M14 27 Q24 36 34 27" stroke="#173042" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+
+<symbol id="i-handshake" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><path d="M8 24 L17 18 L22 22 L17 28 Z" fill="#2b8be6"/><path d="M40 24 L31 18 L26 22 L31 28 Z" fill="#ffb627"/><rect x="20" y="21" width="8" height="7" rx="2" fill="#173042"/></symbol>
+
+<symbol id="i-rocket" viewBox="0 0 48 48"><path d="M24 6c6 4 9 12 8 22l-8 6-8-6c-1-10 2-18 8-22z" fill="#fff"/><circle cx="24" cy="20" r="3.5" fill="#2b8be6"/><path d="M16 28l-5 8 8-3 M32 28l5 8-8-3" fill="#ff6b6b"/><path d="M21 36c0 4 1.5 6 3 6s3-2 3-6" fill="#ffb627"/></symbol>
+
+<symbol id="i-handsup" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><g transform="translate(6,8) scale(0.8)"><rect x="13" y="21" width="22" height="15" rx="8" fill="#ffb627"/><circle cx="17" cy="15" r="3.4" fill="#ffb627"/><circle cx="22" cy="12" r="3.6" fill="#ffb627"/><circle cx="27" cy="12" r="3.6" fill="#ffb627"/><circle cx="32" cy="15" r="3.4" fill="#ffb627"/><circle cx="10" cy="24" r="3.6" fill="#ffb627"/></g><g transform="translate(24,8) scale(-0.8,0.8)"><rect x="13" y="21" width="22" height="15" rx="8" fill="#ffb627"/><circle cx="17" cy="15" r="3.4" fill="#ffb627"/><circle cx="22" cy="12" r="3.6" fill="#ffb627"/><circle cx="27" cy="12" r="3.6" fill="#ffb627"/><circle cx="32" cy="15" r="3.4" fill="#ffb627"/><circle cx="10" cy="24" r="3.6" fill="#ffb627"/></g></symbol>
+
+<symbol id="i-faucet" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><path d="M12 18h14a6 6 0 0 1 6 6v2" stroke="#2b8be6" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="10" y="14" width="6" height="8" rx="2" fill="#2b8be6"/><path d="M32 26v4" stroke="#2b8be6" stroke-width="4" stroke-linecap="round"/><path d="M30 33c0 3 1.8 5 2 5s2-2 2-5a2 2 0 0 0-4 0z" fill="#8fd0ff"/></symbol>
+
+<symbol id="i-soap" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#d9f6ec"/><rect x="12" y="19" width="24" height="14" rx="6" fill="#fff"/><circle cx="16" cy="14" r="3" fill="#bff0dd"/><circle cx="24" cy="11" r="3.6" fill="#bff0dd"/><circle cx="32" cy="14" r="2.6" fill="#bff0dd"/></symbol>
+
+<symbol id="i-palms" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><g transform="translate(2,6)"><rect x="13" y="21" width="16" height="15" rx="7" fill="#fff"/><circle cx="16" cy="15" r="3" fill="#fff"/><circle cx="20" cy="12" r="3.2" fill="#fff"/><circle cx="24" cy="12" r="3.2" fill="#fff"/><circle cx="9" cy="23" r="3" fill="#fff"/></g><g transform="translate(44,6) scale(-1,1)"><rect x="13" y="21" width="16" height="15" rx="7" fill="#fff" opacity=".85"/><circle cx="16" cy="15" r="3" fill="#fff" opacity=".85"/><circle cx="20" cy="12" r="3.2" fill="#fff" opacity=".85"/><circle cx="24" cy="12" r="3.2" fill="#fff" opacity=".85"/><circle cx="9" cy="23" r="3" fill="#fff" opacity=".85"/></g></symbol>
+
+<symbol id="i-hand-back" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><rect x="13" y="21" width="22" height="15" rx="8" fill="#fff"/><circle cx="17" cy="15" r="3.2" fill="#fff"/><circle cx="22" cy="12" r="3.4" fill="#fff"/><circle cx="27" cy="12" r="3.4" fill="#fff"/><circle cx="32" cy="15" r="3.2" fill="#fff"/><circle cx="10" cy="24" r="3.2" fill="#fff"/><circle cx="20" cy="27" r="1.4" fill="#8fc9ff"/><circle cx="25" cy="27" r="1.4" fill="#8fc9ff"/><circle cx="30" cy="27" r="1.4" fill="#8fc9ff"/><path d="M34 10a7 7 0 0 1 2 9" stroke="#2b8be6" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
+
+<symbol id="i-fingers" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><rect x="10" y="24" width="28" height="12" rx="6" fill="#fff"/><path d="M14 24v-9M20 24v-11M26 24v-11M32 24v-9" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M17 24v-7M23 24v-9M29 24v-7" stroke="#8fc9ff" stroke-width="4" stroke-linecap="round"/></symbol>
+
+<symbol id="i-thumb" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><rect x="18" y="20" width="10" height="16" rx="5" fill="#fff"/><circle cx="23" cy="16" r="5.5" fill="#fff"/><path d="M32 14a9 9 0 0 1 2.5 12" stroke="#2b8be6" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M35 24l1 3-3 0" fill="#2b8be6"/></symbol>
+
+<symbol id="i-fingertips" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><rect x="13" y="24" width="22" height="12" rx="6" fill="#fff"/><circle cx="17" cy="17" r="3" fill="#fff"/><circle cx="22" cy="14" r="3.2" fill="#fff"/><circle cx="27" cy="14" r="3.2" fill="#fff"/><circle cx="32" cy="17" r="3" fill="#fff"/><circle cx="17" cy="14" r="1" fill="#ffb627"/><circle cx="22" cy="11" r="1" fill="#ffb627"/><circle cx="27" cy="11" r="1" fill="#ffb627"/><circle cx="32" cy="14" r="1" fill="#ffb627"/></symbol>
+
+<symbol id="i-wrist" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><rect x="20" y="8" width="8" height="18" rx="4" fill="#fff"/><rect x="16" y="24" width="16" height="6" rx="3" fill="#2b8be6"/><rect x="12" y="28" width="24" height="10" rx="5" fill="#fff"/></symbol>
+
+<symbol id="i-droplet" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><path d="M24 10c6 8 10 14 10 19a10 10 0 1 1-20 0c0-5 4-11 10-19z" fill="#2b8be6"/><circle cx="20" cy="30" r="2.4" fill="#8fd0ff"/></symbol>
+
+<symbol id="i-towel" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><rect x="11" y="12" width="26" height="24" rx="4" fill="#fff"/><path d="M11 19h26M11 26h26" stroke="#ffb627" stroke-width="2.5"/></symbol>
+
+<symbol id="i-star" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><path d="M24 9 L28.5 19.5 L40 20.5 L31.3 28 L34 39 L24 33 L14 39 L16.7 28 L8 20.5 L19.5 19.5 Z" fill="#ffb627"/></symbol>
+
+<symbol id="i-plate" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16" fill="#fff" stroke="#d7e6f0" stroke-width="2"/><circle cx="24" cy="24" r="8" fill="#dcefff"/></symbol>
+
+<symbol id="i-toilet" viewBox="0 0 48 48"><rect x="14" y="8" width="20" height="10" rx="3" fill="#8fc9ff"/><path d="M14 18h20v6c0 8-5 14-10 14s-10-6-10-14z" fill="#fff" stroke="#d7e6f0" stroke-width="2"/></symbol>
+
+<symbol id="i-ball" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="#fff" stroke="#173042" stroke-width="1.5"/><path d="M24 14l6 4-2 7h-8l-2-7z" fill="#173042"/></symbol>
+
+<symbol id="i-dog" viewBox="0 0 48 48"><circle cx="24" cy="26" r="14" fill="#ffd9a0"/><path d="M12 16l6 10M36 16l-6 10" stroke="#e8a855" stroke-width="6" stroke-linecap="round"/><circle cx="19" cy="24" r="2" fill="#173042"/><circle cx="29" cy="24" r="2" fill="#173042"/><ellipse cx="24" cy="31" rx="3" ry="2" fill="#173042"/></symbol>
+
+<symbol id="i-trash" viewBox="0 0 48 48"><rect x="14" y="18" width="20" height="20" rx="2" fill="#8fd0ff"/><rect x="11" y="12" width="26" height="5" rx="2" fill="#2b8be6"/><rect x="19" y="8" width="10" height="4" rx="2" fill="#2b8be6"/><path d="M20 22v12M24 22v12M28 22v12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
+
+<symbol id="i-pea" viewBox="0 0 48 48"><rect x="10" y="12" width="18" height="24" rx="4" fill="#2b8be6"/><rect x="10" y="12" width="18" height="8" rx="4" fill="#dcefff"/><path d="M28 20h6l2 4-2 2h-6z" fill="#dcefff"/><circle cx="40" cy="26" r="3" fill="#fff" stroke="#8fc9ff" stroke-width="1.5"/></symbol>
+
+<symbol id="i-swirl" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#d9f6ec"/><path d="M24 14a10 10 0 1 0 7 17" stroke="#22b38a" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M34 26l-3 6-6-2" stroke="#22b38a" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+<symbol id="i-tongue" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#ffe1e1"/><path d="M14 20c0-5 4-8 10-8s10 3 10 8c0 8-4 14-10 14s-10-6-10-14z" fill="#ff8fa3"/><line x1="24" y1="18" x2="24" y2="30" stroke="#e8637e" stroke-width="1.6"/></symbol>
+
+<symbol id="i-floss" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><path d="M16 14v20M32 14v20" stroke="#8fc9ff" stroke-width="3" stroke-linecap="round"/><path d="M16 24c4-4 12-4 16 0" stroke="#2b8be6" stroke-width="2.5" fill="none" stroke-linecap="round"/></symbol>
+
+<symbol id="i-moon" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#1b3a52"/><path d="M30 14a12 12 0 1 0 0 20 14 14 0 1 1 0-20z" fill="#ffe9b0"/><circle cx="14" cy="16" r="1.4" fill="#ffe9b0"/><circle cx="18" cy="12" r="1" fill="#ffe9b0"/></symbol>
+
+<symbol id="i-recycle" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><path d="M24 12a12 12 0 1 0 8 21" stroke="#ffb627" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M32 10v8h-8" stroke="#ffb627" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+<symbol id="i-toothbrush" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#d9f6ec"/><g transform="rotate(-25 20 22)"><rect x="20" y="22" width="20" height="6" rx="3" fill="#2b8be6"/><rect x="6" y="20" width="12" height="9" rx="2" fill="#fff"/><path d="M7 20v-4M10 20v-4M13 20v-4M16 20v-4" stroke="#8fc9ff" stroke-width="2" stroke-linecap="round"/></g></symbol>
+
+<symbol id="i-check" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#d9f6ec"/><path d="M14 25l7 7 14-16" stroke="#22b38a" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+<symbol id="i-cross" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#ffe1e1"/><path d="M16 16l16 16M32 16L16 32" stroke="#ff6b6b" stroke-width="4.5" stroke-linecap="round"/></symbol>
+
+<symbol id="i-trophy" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><path d="M17 12h14v10c0 6-3 10-7 10s-7-4-7-10z" fill="#ffb627"/><path d="M17 14h-4c0 5 2 8 5 9 M31 14h4c0 5-2 8-5 9" stroke="#ffb627" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="21" y="32" width="6" height="4" fill="#ffb627"/><rect x="16" y="36" width="16" height="3" rx="1.5" fill="#b77800"/></symbol>
+
+<symbol id="i-sprout" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#d9f6ec"/><path d="M24 36V22" stroke="#168a69" stroke-width="3" stroke-linecap="round"/><path d="M24 24c0-6-5-9-10-9 0 6 4 10 10 10z" fill="#22b38a"/><path d="M24 20c0-6 5-9 10-9 0 6-4 10-10 9z" fill="#22b38a"/></symbol>
+
+<symbol id="i-film" viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="24" rx="4" fill="#ff6b6b"/><rect x="10" y="16" width="28" height="16" rx="2" fill="#173042"/><circle cx="12" cy="14" r="1.6" fill="#fff"/><circle cx="36" cy="14" r="1.6" fill="#fff"/><circle cx="12" cy="34" r="1.6" fill="#fff"/><circle cx="36" cy="34" r="1.6" fill="#fff"/></symbol>
+
+<symbol id="i-heart" viewBox="0 0 48 48"><path d="M24 40S6 28 6 16c0-6 5-10 10-10 4 0 7 2 8 6 1-4 4-6 8-6 5 0 10 4 10 10 0 12-18 24-18 24z" fill="#2b8be6"/></symbol>
+
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z" fill="currentColor"/></symbol>
+
+<symbol id="i-reset" viewBox="0 0 24 24"><path d="M18 8A7 7 0 1 0 19.5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M19 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+</defs>
+</svg>
+
+<nav><div class="wrap">
+  <a href="#inicio"><svg class="icon-nav" aria-hidden="true"><use href="#i-home"></use></svg>Início</a>
+  <a href="#porque"><svg class="icon-nav" aria-hidden="true"><use href="#i-bulb"></use></svg>Por que?</a>
+  <a href="#maos"><svg class="icon-nav" aria-hidden="true"><use href="#i-hands"></use></svg>Mãos</a>
+  <a href="#dentes"><svg class="icon-nav" aria-hidden="true"><use href="#i-tooth"></use></svg>Dentes</a>
+  <a href="#quiz"><svg class="icon-nav" aria-hidden="true"><use href="#i-quiz"></use></svg>Quiz</a>
+  <a href="#video"><svg class="icon-nav" aria-hidden="true"><use href="#i-video"></use></svg>Vídeo</a>
+</div></nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div class="icon-row" aria-hidden="true">
+      <svg><use href="#i-soap"></use></svg>
+      <svg><use href="#i-handsup"></use></svg>
+      <svg><use href="#i-tooth"></use></svg>
+      <svg><use href="#i-sparkles"></use></svg>
+    </div>
+    <h1>Mãos Limpas,<br>Sorriso Feliz!</h1>
+    <p>Vamos aprender, brincando, a lavar as mãos do jeito certo e a cuidar bem dos nossos dentes.</p>
+    <a class="btn" href="#maos"><svg class="icon-ui" aria-hidden="true"><use href="#i-rocket"></use></svg>Começar</a>
+  </div>
+</header>
+
+<section id="porque">
+  <div class="wrap">
+    <h2>Por que isso é importante?</h2>
+    <p>Germes são seres tão pequenininhos que não dá para ver. Eles ficam nas mãos e na boca e podem causar doenças. A boa notícia: água, sabão, escova e pasta derrotam esses germes!</p>
+    <div class="why-grid">
+      <div class="card"><div class="big"><svg class="icon-xl" aria-hidden="true"><use href="#i-sneeze"></use></svg></div><h3>Menos doenças</h3><p>Lavar as mãos ajuda a evitar gripe, resfriado e dor de barriga.</p></div>
+      <div class="card"><div class="big"><svg class="icon-xl" aria-hidden="true"><use href="#i-tooth"></use></svg></div><h3>Dentes fortes</h3><p>Escovar tira os restos de comida que causam cárie.</p></div>
+      <div class="card"><div class="big"><svg class="icon-xl" aria-hidden="true"><use href="#i-smile"></use></svg></div><h3>Hálito fresco</h3><p>Boca limpa é boca cheirosa e um sorriso bonito.</p></div>
+      <div class="card"><div class="big"><svg class="icon-xl" aria-hidden="true"><use href="#i-handshake"></use></svg></div><h3>Cuidar dos outros</h3><p>Mãos limpas não espalham germes para os amigos e a família.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="maos">
+  <div class="wrap">
+    <span class="tag">Desafio 1</span>
+    <h2>Lavando as mãos passo a passo</h2>
+    <p>Aperte o botão e siga cada passo junto com o cronômetro. Esfregue bem, sem pressa!</p>
+    <div class="wash">
+      <div class="stage">
+        <div class="icon-stage" id="wIcon"><svg class="icon-big" aria-hidden="true"><use href="#i-soap"></use></svg></div>
+        <div class="stepname" id="wName">Preparados?</div>
+        <div class="stephint" id="wHint">Aperte “Começar” para lavar as mãos junto com a gente.</div>
+        <div class="ring">
+          <svg width="150" height="150" viewBox="0 0 150 150">
+            <circle cx="75" cy="75" r="64" fill="none" stroke="#fff" stroke-width="14"/>
+            <circle id="wArc" cx="75" cy="75" r="64" fill="none" stroke="#2b8be6" stroke-width="14" stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="402"/>
+          </svg>
+          <div class="num" id="wNum">0</div>
+        </div>
+        <div class="controls">
+          <button class="btn" id="wStart"><svg class="icon-ui" aria-hidden="true"><use href="#i-play"></use></svg><span id="wStartTxt">Começar</span></button>
+          <button class="btn ghost" id="wReset"><svg class="icon-ui" aria-hidden="true"><use href="#i-reset"></use></svg>Recomeçar</button>
+        </div>
+      </div>
+      <ol class="steps" id="wSteps"></ol>
+    </div>
+    <h3 style="margin-top:28px">Quando lavar as mãos?</h3>
+    <div class="when">
+      <span class="chip"><svg class="icon-ui" aria-hidden="true"><use href="#i-plate"></use></svg>Antes de comer</span>
+      <span class="chip"><svg class="icon-ui" aria-hidden="true"><use href="#i-toilet"></use></svg>Depois de ir ao banheiro</span>
+      <span class="chip"><svg class="icon-ui" aria-hidden="true"><use href="#i-ball"></use></svg>Depois de brincar</span>
+      <span class="chip"><svg class="icon-ui" aria-hidden="true"><use href="#i-sneeze"></use></svg>Depois de tossir ou espirrar</span>
+      <span class="chip"><svg class="icon-ui" aria-hidden="true"><use href="#i-dog"></use></svg>Depois de mexer em animais</span>
+      <span class="chip"><svg class="icon-ui" aria-hidden="true"><use href="#i-trash"></use></svg>Depois de mexer no lixo</span>
+    </div>
+  </div>
+</section>
+
+<section id="dentes">
+  <div class="wrap">
+    <span class="tag">Desafio 2</span>
+    <h2>Escovando os dentes por 2 minutos</h2>
+    <p>A boca tem 4 partes. Vamos escovar 30 segundos em cada uma, seguindo a parte que acende!</p>
+    <div class="brush">
+      <div class="mouth">
+        <svg viewBox="0 0 320 260" aria-label="Boca dividida em quatro partes">
+          <ellipse cx="160" cy="130" rx="150" ry="118" fill="#ff8fa3"/>
+          <ellipse cx="160" cy="130" rx="118" ry="88" fill="#c2405a"/>
+          <!-- dentes de cima -->
+          <path class="quad" id="q0" d="M48 112 Q60 52 158 42 L158 112 Z"/>
+          <path class="quad" id="q1" d="M162 42 Q260 52 272 112 L162 112 Z"/>
+          <!-- dentes de baixo -->
+          <path class="quad" id="q3" d="M48 148 L158 148 L158 218 Q60 208 48 148 Z"/>
+          <path class="quad" id="q2" d="M162 148 L272 148 Q260 208 162 218 Z"/>
+          <ellipse cx="160" cy="130" rx="70" ry="12" fill="#e66a82"/>
+          <text x="103" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#173042">cima</text>
+          <text x="217" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#173042">cima</text>
+          <text x="103" y="190" text-anchor="middle" font-size="16" font-weight="700" fill="#173042">baixo</text>
+          <text x="217" y="190" text-anchor="middle" font-size="16" font-weight="700" fill="#173042">baixo</text>
+        </svg>
+      </div>
+      <div class="brushinfo">
+        <p class="bigtime" id="bTime">2:00</p>
+        <div class="where" id="bWhere"><svg class="icon" aria-hidden="true"><use href="#i-toothbrush"></use></svg>Pegue a escova!</div>
+        <div class="bar"><i id="bBar"></i></div>
+        <div class="controls">
+          <button class="btn mint" id="bStart"><svg class="icon-ui" aria-hidden="true"><use href="#i-play"></use></svg><span id="bStartTxt">Começar</span></button>
+          <button class="btn ghost" id="bReset"><svg class="icon-ui" aria-hidden="true"><use href="#i-reset"></use></svg>Recomeçar</button>
+        </div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="card"><div class="e"><svg class="icon-lg" aria-hidden="true"><use href="#i-pea"></use></svg></div><b>Pouca pasta</b>Use só um pouquinho de pasta com flúor, do tamanho de um grão de ervilha.</div>
+      <div class="card"><div class="e"><svg class="icon-lg" aria-hidden="true"><use href="#i-swirl"></use></svg></div><b>Movimentos suaves</b>Escove em bolinhas, com calma, na frente, atrás e em cima dos dentes.</div>
+      <div class="card"><div class="e"><svg class="icon-lg" aria-hidden="true"><use href="#i-tongue"></use></svg></div><b>Não esqueça a língua</b>Ela também guarda germes. Escove de leve!</div>
+      <div class="card"><div class="e"><svg class="icon-lg" aria-hidden="true"><use href="#i-floss"></use></svg></div><b>Fio dental</b>Limpa entre os dentes, onde a escova não alcança. Peça ajuda a um adulto.</div>
+      <div class="card"><div class="e"><svg class="icon-lg" aria-hidden="true"><use href="#i-moon"></use></svg></div><b>Antes de dormir</b>É a escovação mais importante do dia. Escove depois das refeições também.</div>
+      <div class="card"><div class="e"><svg class="icon-lg" aria-hidden="true"><use href="#i-recycle"></use></svg></div><b>Troque a escova</b>A cada 3 meses, ou quando as cerdas ficarem tortinhas.</div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="wrap">
+    <div class="quizbox card">
+      <span class="tag">Desafio 3</span>
+      <h2>Certo ou errado?</h2>
+      <div id="qArea"></div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="wrap">
+    <span class="tag">Assista</span>
+    <h2>Nosso vídeo</h2>
+    <div class="vid">
+      <!-- OPÇÃO 1: arquivo de vídeo na mesma pasta (renomeie para video.mp4) -->
+      <video id="vid" controls preload="metadata" playsinline src="video.mp4"></video>
+      <!-- OPÇÃO 2: vídeo do YouTube. Apague a tag <video> acima e use:
+      <iframe src="https://www.youtube.com/embed/CODIGO_DO_VIDEO" allowfullscreen></iframe>
+      -->
+      <div class="missing" id="vMissing"><svg aria-hidden="true"><use href="#i-film"></use></svg>Coloque o arquivo <b>&nbsp;video.mp4&nbsp;</b> na mesma pasta desta página para ele aparecer aqui.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="icon-row" aria-hidden="true">
+      <svg><use href="#i-soap"></use></svg>
+      <svg><use href="#i-tooth"></use></svg>
+      <svg><use href="#i-heart"></use></svg>
+    </div>
+    <p>Mãos limpas e dentes escovados: cuidar de si é cuidar de todos!</p>
+  </div>
+</footer>
+
+<script>
+/* ---------- utilidades ---------- */
+const $ = id => document.getElementById(id);
+function beep(freq=880, dur=.15){
+  try{
+    const c = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const o=c.createOscillator(), g=c.createGain();
+    o.frequency.value=freq; o.connect(g); g.connect(c.destination);
+    g.gain.setValueAtTime(.15,c.currentTime); g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dur);
+    o.start(); o.stop(c.currentTime+dur);
+  }catch(e){}
+}
+function confetti(){
+  const colors=['#2b8be6','#22b38a','#ffb627','#ff6b6b','#8fc9ff','#bff0dd'];
+  for(let i=0;i<28;i++){
+    const s=document.createElement('span');
+    s.className='confetti';
+    s.style.background=colors[i%colors.length];
+    s.style.borderRadius=(i%3===0)?'50%':'4px';
+    s.style.left=Math.random()*100+'vw';
+    s.style.animationDuration=(1.8+Math.random()*1.8)+'s';
+    s.style.animationDelay=(Math.random()*.6)+'s';
+    document.body.appendChild(s); setTimeout(()=>s.remove(),4500);
+  }
+}
+
+/* ---------- lavagem das mãos ---------- */
+const washSteps = [
+  {icon:'i-faucet', n:'Molhe as mãos', h:'Abra a torneira e molhe bem as duas mãos.', t:5},
+  {icon:'i-soap', n:'Coloque sabão', h:'Use sabão suficiente para cobrir as mãos.', t:4},
+  {icon:'i-palms', n:'Palma com palma', h:'Esfregue uma palma na outra.', t:5},
+  {icon:'i-hand-back', n:'Costas das mãos', h:'Esfregue as costas de uma mão com a palma da outra.', t:5},
+  {icon:'i-fingers', n:'Entre os dedos', h:'Entrelace os dedos e esfregue bem.', t:5},
+  {icon:'i-thumb', n:'Polegares', h:'Segure o polegar e gire, um de cada vez.', t:5},
+  {icon:'i-fingertips', n:'Pontas dos dedos e unhas', h:'Esfregue as pontinhas dos dedos na palma da outra mão.', t:5},
+  {icon:'i-wrist', n:'Punhos', h:'Não esqueça dos punhos!', t:4},
+  {icon:'i-droplet', n:'Enxágue', h:'Tire toda a espuma com água corrente.', t:5},
+  {icon:'i-towel', n:'Seque bem', h:'Use papel toalha ou uma toalha limpa.', t:5},
+];
+const wList=$('wSteps');
+washSteps.forEach((s,i)=>{
+  const li=document.createElement('li');
+  li.innerHTML=`<span class="e"><svg class="icon" aria-hidden="true"><use href="#${s.icon}"></use></svg><svg class="icon check" aria-hidden="true"><use href="#i-check"></use></svg></span><span><b>${i+1}.</b> ${s.n}</span>`;
+  wList.appendChild(li);
+});
+let wTimer=null, wIdx=-1, wLeft=0;
+const C=402;
+function wShow(){
+  const s=washSteps[wIdx];
+  [...wList.children].forEach((li,i)=>{li.classList.toggle('on',i===wIdx);li.classList.toggle('done',i<wIdx);});
+  $('wIcon').innerHTML=`<svg class="icon-big" aria-hidden="true"><use href="#${s.icon}"></use></svg>`;
+  $('wIcon').classList.remove('bounce'); void $('wIcon').offsetWidth; $('wIcon').classList.add('bounce');
+  $('wName').textContent=s.n; $('wHint').textContent=s.h;
+}
+function wTick(){
+  const s=washSteps[wIdx];
+  $('wNum').textContent=wLeft;
+  $('wArc').style.strokeDashoffset = C*(wLeft/s.t);
+  if(wLeft<=0){
+    wIdx++;
+    if(wIdx>=washSteps.length){ wFinish(); return; }
+    beep(660); wLeft=washSteps[wIdx].t; wShow();
+    $('wNum').textContent=wLeft; $('wArc').style.strokeDashoffset=C;
+  }
+  wLeft--;
+}
+function wFinish(){
+  clearInterval(wTimer); wTimer=null;
+  [...wList.children].forEach(li=>{li.classList.remove('on');li.classList.add('done');});
+  $('wIcon').innerHTML='<svg class="icon-big" aria-hidden="true"><use href="#i-star"></use></svg>';
+  $('wName').textContent='Mãos limpinhas!';
+  $('wHint').textContent='Parabéns! Você lavou as mãos do jeito certo.';
+  $('wNum').innerHTML='<svg class="icon" aria-hidden="true" style="width:1.6rem;height:1.6rem"><use href="#i-check"></use></svg>'; $('wArc').style.strokeDashoffset=0;
+  $('wStartTxt').textContent='De novo'; $('wStart').disabled=false;
+  beep(880,.2); setTimeout(()=>beep(1175,.3),180); confetti();
+}
+$('wStart').onclick=()=>{
+  if(wTimer) return;
+  wIdx=0; wLeft=washSteps[0].t; wShow();
+  $('wStart').disabled=true; beep(660);
+  wTick(); wTimer=setInterval(wTick,1000);
+};
+$('wReset').onclick=()=>{
+  clearInterval(wTimer); wTimer=null; wIdx=-1;
+  [...wList.children].forEach(li=>li.className='');
+  $('wIcon').innerHTML='<svg class="icon-big" aria-hidden="true"><use href="#i-soap"></use></svg>';
+  $('wName').textContent='Preparados?';
+  $('wHint').textContent='Aperte “Começar” para lavar as mãos junto com a gente.';
+  $('wNum').textContent='0'; $('wArc').style.strokeDashoffset=C;
+  $('wStartTxt').textContent='Começar'; $('wStart').disabled=false;
+};
+
+/* ---------- escovação ---------- */
+const quads=['Dentes de cima, lado direito','Dentes de cima, lado esquerdo','Dentes de baixo, lado esquerdo','Dentes de baixo, lado direito'];
+const TOTAL=120; let bLeft=TOTAL, bTimer=null;
+function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function bPaint(){
+  const done=TOTAL-bLeft, q=Math.min(3,Math.floor(done/30));
+  for(let i=0;i<4;i++){
+    const el=$('q'+i); el.classList.toggle('done', i<q || bLeft===0); el.classList.toggle('on', i===q && bLeft>0 && bTimer);
+  }
+  $('bTime').textContent=fmt(bLeft);
+  $('bBar').style.width=(done/TOTAL*100)+'%';
+  if(bTimer && bLeft>0) $('bWhere').textContent=quads[q];
+}
+$('bStart').onclick=()=>{
+  if(bTimer) return;
+  if(bLeft===0) bLeft=TOTAL;
+  $('bStart').disabled=true; beep(660);
+  bTimer=setInterval(()=>{
+    bLeft--;
+    if(bLeft>0 && (TOTAL-bLeft)%30===0) beep(660);
+    if(bLeft<=0){
+      clearInterval(bTimer); bTimer=null; bLeft=0;
+      $('bWhere').innerHTML='<svg class="icon" aria-hidden="true"><use href="#i-star"></use></svg><svg class="icon" aria-hidden="true"><use href="#i-smile"></use></svg>Sorriso brilhando!';
+      $('bStartTxt').textContent='De novo'; $('bStart').disabled=false;
+      beep(880,.2); setTimeout(()=>beep(1175,.3),180); confetti();
+    }
+    bPaint();
+  },1000);
+  bPaint();
+};
+$('bReset').onclick=()=>{
+  clearInterval(bTimer); bTimer=null; bLeft=TOTAL;
+  $('bWhere').innerHTML='<svg class="icon" aria-hidden="true"><use href="#i-toothbrush"></use></svg>Pegue a escova!';
+  $('bStartTxt').textContent='Começar'; $('bStart').disabled=false;
+  bPaint();
+};
+
+/* ---------- quiz ---------- */
+const Q=[
+  {q:'Lavar as mãos só com água já é suficiente.', a:false, x:'Sem sabão os germes não saem direito. O sabão é o super-herói que tira a sujeira!'},
+  {q:'Devemos lavar as mãos antes de comer.', a:true, x:'Isso mesmo! Assim os germes das mãos não vão parar na comida e na barriga.'},
+  {q:'Se a mão parece limpa, ela não tem germes.', a:false, x:'Os germes são tão pequenos que não conseguimos ver. Por isso lavamos mesmo quando a mão parece limpa.'},
+  {q:'Precisamos esfregar as mãos por pelo menos 20 segundos.', a:true, x:'Certo! Dá para cantar “Parabéns pra você” duas vezes enquanto esfrega.'},
+  {q:'Escovar os dentes uma vez por semana já está bom.', a:false, x:'Os dentes devem ser escovados todos os dias, depois das refeições e principalmente antes de dormir.'},
+  {q:'A escovação deve durar cerca de 2 minutos.', a:true, x:'Isso! 2 minutos dá tempo de limpar todas as partes da boca.'},
+  {q:'Quanto mais pasta de dente, melhor.', a:false, x:'Basta um pouquinho, do tamanho de um grão de ervilha.'},
+  {q:'Também devemos escovar a língua.', a:true, x:'Sim! A língua guarda germes que causam mau hálito.'},
+  {q:'Podemos emprestar nossa escova de dentes para um amigo.', a:false, x:'A escova é só sua! Emprestar passa germes de uma boca para a outra.'},
+  {q:'Doces e refrigerantes em excesso podem causar cárie.', a:true, x:'Correto! O açúcar alimenta os germes que estragam os dentes. Se comer doce, escove depois.'},
+];
+let qi=0, pts=0, res=[];
+function dots(){return '<div class="dots">'+Q.map((_,i)=>`<span class="${res[i]===true?'ok':res[i]===false?'bad':''} ${i===qi?'cur':''}"></span>`).join('')+'</div>';}
+function qRender(){
+  const area=$('qArea');
+  if(qi>=Q.length){
+    const msgIcon = pts===Q.length?'i-trophy':pts>=7?'i-star':'i-sprout';
+    const msg = pts===Q.length?'Perfeito! Você é um campeão da higiene!':pts>=7?'Muito bem! Você sabe muito!':'Bom começo! Que tal tentar de novo?';
+    area.innerHTML=`<p class="qcount">Resultado</p><div class="score">${pts} / ${Q.length}</div><svg class="score-icon" aria-hidden="true"><use href="#${msgIcon}"></use></svg><p style="font-size:1.2rem">${msg}</p>${dots()}<p style="margin-top:20px"><button class="btn" id="qAgain"><svg class="icon-ui" aria-hidden="true"><use href="#i-reset"></use></svg>Jogar de novo</button></p>`;
+    $('qAgain').onclick=()=>{qi=0;pts=0;res=[];qRender();};
+    if(pts>=7) confetti();
+    return;
+  }
+  const it=Q[qi];
+  area.innerHTML=`<p class="qcount">Pergunta ${qi+1} de ${Q.length}</p>
+    <div class="qtext">${it.q}</div>
+    <div class="answers">
+      <button class="ans yes" data-v="1"><svg class="icon-ui" aria-hidden="true"><use href="#i-check"></use></svg>Certo</button>
+      <button class="ans no" data-v="0"><svg class="icon-ui" aria-hidden="true"><use href="#i-cross"></use></svg>Errado</button>
+    </div>
+    <div class="feedback" id="fb"></div>${dots()}`;
+  area.querySelectorAll('.ans').forEach(b=>b.onclick=()=>{
+    const ok = (b.dataset.v==='1')===it.a;
+    res[qi]=ok; if(ok){pts++;beep(880);}else beep(220,.25);
+    area.querySelectorAll('.ans').forEach(x=>x.disabled=true);
+    const fb=$('fb'); fb.className='feedback '+(ok?'ok':'bad');
+    fb.innerHTML=`<b><svg class="icon-ui" aria-hidden="true"><use href="#${ok?'i-star':'i-sprout'}"></use></svg>${ok?'Acertou!':'Quase lá!'}</b><br>A resposta é <b>${it.a?'CERTO':'ERRADO'}</b>. ${it.x}
+      <div style="text-align:center;margin-top:14px"><button class="btn" id="qNext"><svg class="icon-ui" aria-hidden="true"><use href="#i-play"></use></svg>${qi===Q.length-1?'Ver resultado':'Próxima'}</button></div>`;
+    area.querySelector('.dots').outerHTML=dots();
+    $('qNext').onclick=()=>{qi++;qRender();};
+  });
+}
+qRender();
+
+/* ---------- vídeo ---------- */
+const v=$('vid');
+if(v){
+  const miss=()=>{$('vMissing').style.display='flex';v.style.display='none';};
+  v.addEventListener('error',miss,true);
+  setTimeout(()=>{ if(v.error || v.networkState===3) miss(); },1500);
+}
+</script>
+</body>
+</html>
