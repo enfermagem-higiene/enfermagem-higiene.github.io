@@ -25,7 +25,7 @@ h3{font-size:1.3rem}
 p{margin:0 0 1em}
 .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
 
-/* ícones */
+/* ícones (sprite SVG inline, sem emojis) */
 .icon{width:1.2em;height:1.2em;vertical-align:-0.2em;flex:none}
 .icon-ui{width:1.05em;height:1.05em;vertical-align:-0.18em;margin-right:6px;flex:none}
 .icon-nav{width:22px;height:22px;vertical-align:-6px;margin-right:5px;flex:none}
@@ -164,7 +164,7 @@ footer .icon-row svg{width:34px;height:34px}
 </head>
 <body>
 
-<!-- ======= sprite de ícones SVG ======= -->
+<!-- ======= sprite de ícones SVG (nenhum emoji na página) ======= -->
 <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
 <defs>
 
@@ -334,7 +334,7 @@ footer .icon-row svg{width:34px;height:34px}
   <div class="wrap">
     <span class="tag">Desafio 2</span>
     <h2>Escovando os dentes por 2 minutos</h2>
-    <p>A boca tem 4 partes. Vamos escovar 30 segundos em cada uma, seguindo a parte que acende!</p>
+    <p>A boca has 4 partes. Vamos escovar 30 segundos em cada uma, seguindo a parte que acende!</p>
     <div class="brush">
       <div class="mouth">
         <svg viewBox="0 0 320 260" aria-label="Boca dividida em quatro partes">
@@ -389,11 +389,8 @@ footer .icon-row svg{width:34px;height:34px}
     <span class="tag">Assista</span>
     <h2>Nosso vídeo</h2>
     <div class="vid">
-      <!-- OPÇÃO 1: arquivo de vídeo na mesma pasta (renomeie para video.mp4) -->
+      <!-- Coloque o arquivo video.mp4 na raiz do repositório -->
       <video id="vid" controls preload="metadata" playsinline src="video.mp4"></video>
-      <!-- OPÇÃO 2: vídeo do YouTube. Apague a tag <video> acima e use:
-      <iframe src="https://www.youtube.com/embed/CODIGO_DO_VIDEO" allowfullscreen></iframe>
-      -->
       <div class="missing" id="vMissing"><svg aria-hidden="true"><use href="#i-film"></use></svg>Coloque o arquivo <b>&nbsp;video.mp4&nbsp;</b> na mesma pasta desta página para ele aparecer aqui.</div>
     </div>
   </div>
@@ -403,8 +400,8 @@ footer .icon-row svg{width:34px;height:34px}
   <div class="wrap">
     <div class="card sobre-content">
       <span class="tag">Sobre</span>
-      <!-- Logo da UNIFAP -->
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Bras%C3%A3o_da_Unifap.png" alt="Logo da UNIFAP" class="unifap-logo">
+      <!-- Logo apontando para o arquivo enviado no GitHub -->
+      <img src="unifap-logo.png" alt="Logo da UNIFAP" class="unifap-logo">
       <div class="sobre-info">
         <h3>Universidade Federal do Amapá</h3>
         <p>Departamento de Ciências Biológicas e da Saúde<br><strong>Curso de Bacharelado em Enfermagem</strong></p>
