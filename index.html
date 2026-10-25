@@ -25,7 +25,7 @@ h3{font-size:1.3rem}
 p{margin:0 0 1em}
 .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
 
-/* ícones (sprite SVG inline, sem emojis) */
+/* ícones */
 .icon{width:1.2em;height:1.2em;vertical-align:-0.2em;flex:none}
 .icon-ui{width:1.05em;height:1.05em;vertical-align:-0.18em;margin-right:6px;flex:none}
 .icon-nav{width:22px;height:22px;vertical-align:-6px;margin-right:5px;flex:none}
@@ -136,6 +136,15 @@ section{padding:48px 0;scroll-margin-top:60px}
 .vid .missing{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#cfe3ef;padding:20px}
 .vid .missing svg{width:72px;height:72px;margin-bottom:12px}
 
+/* sobre / universidade */
+#sobre .tag{background:var(--blue-soft);color:var(--blue)}
+.sobre-content{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
+.unifap-logo{max-width:110px;height:auto;margin-bottom:4px}
+.sobre-info h3{color:var(--blue);margin-bottom:6px;font-size:1.4rem}
+.sobre-info p{margin-bottom:8px;font-size:1.05rem}
+.sobre-info .professores, .sobre-info .discentes{margin-top:14px;font-size:.98rem;color:var(--muted)}
+.sobre-info b{color:var(--ink)}
+
 footer{padding:40px 0 60px;text-align:center;color:var(--muted)}
 footer .icon-row{display:flex;justify-content:center;gap:10px;margin-bottom:8px}
 footer .icon-row svg{width:34px;height:34px}
@@ -155,7 +164,7 @@ footer .icon-row svg{width:34px;height:34px}
 </head>
 <body>
 
-<!-- ======= sprite de ícones SVG (nenhum emoji na página) ======= -->
+<!-- ======= sprite de ícones SVG ======= -->
 <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
 <defs>
 
@@ -181,7 +190,7 @@ footer .icon-row svg{width:34px;height:34px}
 
 <symbol id="i-rocket" viewBox="0 0 48 48"><path d="M24 6c6 4 9 12 8 22l-8 6-8-6c-1-10 2-18 8-22z" fill="#fff"/><circle cx="24" cy="20" r="3.5" fill="#2b8be6"/><path d="M16 28l-5 8 8-3 M32 28l5 8-8-3" fill="#ff6b6b"/><path d="M21 36c0 4 1.5 6 3 6s3-2 3-6" fill="#ffb627"/></symbol>
 
-<symbol id="i-handsup" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><g transform="translate(6,8) scale(0.8)"><rect x="13" y="21" width="22" height="15" rx="8" fill="#ffb627"/><circle cx="17" cy="15" r="3.4" fill="#ffb627"/><circle cx="22" cy="12" r="3.6" fill="#ffb627"/><circle cx="27" cy="12" r="3.6" fill="#ffb627"/><circle cx="32" cy="15" r="3.4" fill="#ffb627"/><circle cx="10" cy="24" r="3.6" fill="#ffb627"/></g><g transform="translate(24,8) scale(-0.8,0.8)"><rect x="13" y="21" width="22" height="15" rx="8" fill="#ffb627"/><circle cx="17" cy="15" r="3.4" fill="#ffb627"/><circle cx="22" cy="12" r="3.6" fill="#ffb627"/><circle cx="27" cy="12" r="3.6" fill="#ffb627"/><circle cx="32" cy="15" r="3.4" fill="#ffb627"/><circle cx="10" cy="24" r="3.6" fill="#ffb627"/></g></symbol>
+<symbol id="i-handsup" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#fff1d1"/><path d="M14 28c0-3 2-6 5-6s5 3 5 6v6H14v-6z" fill="#ffb627"/><path d="M29 28c0-3 2-6 5-6s5 3 5 6v6H29v-6z" fill="#ffb627"/><circle cx="16.5" cy="18" r="3" fill="#ffb627"/><circle cx="31.5" cy="18" r="3" fill="#ffb627"/></symbol>
 
 <symbol id="i-faucet" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#dcefff"/><path d="M12 18h14a6 6 0 0 1 6 6v2" stroke="#2b8be6" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="10" y="14" width="6" height="8" rx="2" fill="#2b8be6"/><path d="M32 26v4" stroke="#2b8be6" stroke-width="4" stroke-linecap="round"/><path d="M30 33c0 3 1.8 5 2 5s2-2 2-5a2 2 0 0 0-4 0z" fill="#8fd0ff"/></symbol>
 
@@ -255,6 +264,7 @@ footer .icon-row svg{width:34px;height:34px}
   <a href="#dentes"><svg class="icon-nav" aria-hidden="true"><use href="#i-tooth"></use></svg>Dentes</a>
   <a href="#quiz"><svg class="icon-nav" aria-hidden="true"><use href="#i-quiz"></use></svg>Quiz</a>
   <a href="#video"><svg class="icon-nav" aria-hidden="true"><use href="#i-video"></use></svg>Vídeo</a>
+  <a href="#sobre"><svg class="icon-nav" aria-hidden="true"><use href="#i-sparkles"></use></svg>Sobre</a>
 </div></nav>
 
 <header class="hero" id="inicio">
@@ -385,6 +395,32 @@ footer .icon-row svg{width:34px;height:34px}
       <iframe src="https://www.youtube.com/embed/CODIGO_DO_VIDEO" allowfullscreen></iframe>
       -->
       <div class="missing" id="vMissing"><svg aria-hidden="true"><use href="#i-film"></use></svg>Coloque o arquivo <b>&nbsp;video.mp4&nbsp;</b> na mesma pasta desta página para ele aparecer aqui.</div>
+    </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="wrap">
+    <div class="card sobre-content">
+      <span class="tag">Sobre</span>
+      <!-- Logo da UNIFAP -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Bras%C3%A3o_da_Unifap.png" alt="Logo da UNIFAP" class="unifap-logo">
+      <div class="sobre-info">
+        <h3>Universidade Federal do Amapá</h3>
+        <p>Departamento de Ciências Biológicas e da Saúde<br><strong>Curso de Bacharelado em Enfermagem</strong></p>
+        
+        <div class="professores">
+          <p><strong>Docentes:</strong><br>
+          Prof. Me. Giovana da Silva Rodrigues Marcolino<br>
+          Prof. Dr. Nely Dayse Santos da Mata<br>
+          Prof. Dr. Tatiana do Socorro dos Santos Calandrini</p>
+        </div>
+
+        <div class="discentes">
+          <p><strong>Discentes:</strong><br>
+          Hylley Belly Corrêa Machado, Izabelli Raquel Barbosa dos Santos, José Eduardo de Almeida Mendes, Rana Maria Santos David e Sulliany Wanessa Rocha dos Santos</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
