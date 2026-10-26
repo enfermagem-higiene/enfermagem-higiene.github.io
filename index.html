@@ -25,7 +25,7 @@ h3{font-size:1.3rem}
 p{margin:0 0 1em}
 .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
 
-/* ícones (sprite SVG inline, sem emojis) */
+/* ícones */
 .icon{width:1.2em;height:1.2em;vertical-align:-0.2em;flex:none}
 .icon-ui{width:1.05em;height:1.05em;vertical-align:-0.18em;margin-right:6px;flex:none}
 .icon-nav{width:22px;height:22px;vertical-align:-6px;margin-right:5px;flex:none}
@@ -164,7 +164,7 @@ footer .icon-row svg{width:34px;height:34px}
 </head>
 <body>
 
-<!-- ======= sprite de ícones SVG (nenhum emoji na página) ======= -->
+<!-- ======= sprite de ícones SVG ======= -->
 <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
 <defs>
 
@@ -389,9 +389,7 @@ footer .icon-row svg{width:34px;height:34px}
     <span class="tag">Assista</span>
     <h2>Nosso vídeo</h2>
     <div class="vid">
-      <!-- Coloque o arquivo video.mp4 na raiz do repositório -->
-      <video id="vid" controls preload="metadata" playsinline src="video.mp4"></video>
-      <div class="missing" id="vMissing"><svg aria-hidden="true"><use href="#i-film"></use></svg>Coloque o arquivo <b>&nbsp;video.mp4&nbsp;</b> na mesma pasta desta página para ele aparecer aqui.</div>
+      <iframe src="https://www.youtube.com/embed/y4_LP9bSWRo" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 </section>
@@ -400,7 +398,6 @@ footer .icon-row svg{width:34px;height:34px}
   <div class="wrap">
     <div class="card sobre-content">
       <span class="tag">Sobre</span>
-      <!-- Logo apontando para o arquivo enviado no GitHub -->
       <img src="unifap-logo.png" alt="Logo da UNIFAP" class="unifap-logo">
       <div class="sobre-info">
         <h3>Universidade Federal do Amapá</h3>
